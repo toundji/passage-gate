@@ -11,7 +11,7 @@ export class Abonner {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({unique: true})
   idBadge: string;
 
   @Column()
@@ -47,7 +47,7 @@ export class Abonner {
   @Column()
   type: string;
 
-  @Column()
+  @Column({ default: true, nullable:false})
   is_active: boolean;
 
   @Column()

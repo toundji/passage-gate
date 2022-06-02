@@ -9,6 +9,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AbonnerDto } from 'src/dto/abonner.dto';
 import { AbonnersService } from 'src/services/abonners.service';
 import { Abonner } from './../entities/abonner.entity';
 
@@ -18,7 +19,7 @@ export class AbonnersController {
   constructor(private readonly abonnersService: AbonnersService) {}
 
   @Post()
-  create(@Body() createAbonnerDto: any) {
+  create(@Body() createAbonnerDto: AbonnerDto) {
     return this.abonnersService.create(createAbonnerDto);
   }
 

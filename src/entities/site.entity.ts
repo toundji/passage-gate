@@ -31,29 +31,29 @@ export class Site {
   @Column()
   idBadge: string;
 
-  @Column()
+  @Column({default:false,  nullable:false})
   is_sent: boolean;
 
-  @Column()
+  @Column({default:false,  nullable:false})
   is_sentE: boolean;
 
-  @Column()
+  @Column({default:false,  nullable:false})
   is_sentA: boolean;
 
-  @Column()
+  @Column({default:false,  nullable:false})
   is_sentG: boolean;
 
   @Column()
   passage_verified_at: Date;
 
-  @Column()
-  type_passage: boolean;
+  @Column({default: "CARTE"})
+  type_passage: string;
 
   @Column()
-  percepteur: boolean;
+  percepteur: string;
 
-  @Column()
-  statut: boolean;
+  @Column({default:"ONLINE", nullable:false})
+  statut: string;
 
   @CreateDateColumn()
   created_at: Date;

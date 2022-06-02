@@ -1,17 +1,19 @@
 /* eslint-disable prettier/prettier */
+import { ValidationError, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { writeFileSync } from 'fs';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('/api');
-  // app.useGlobalPipes(
-  //   new ValidationPipe({
-  //     exceptionFactory: (errors: ValidationError[]) => erreur(errors),
-  //   }),
-  // );
+  app.useGlobalPipes(
+    new ValidationPipe({
+      exceptionFactory: (errors: ValidationError[]) => (errors),
+    }),
+  );
 
   // eslint-disable-next-line prettier/prettier
   const config = new DocumentBuilder()
@@ -23,6 +25,7 @@ async function bootstrap() {
     .addTag('cast')
     .build();
   const document = SwaggerModule.createDocument(app, config);
+  writeFileSync("./openapi-schema.json", JSON.stringify(document));
   SwaggerModule.setup('/api/doc', app, document);
   await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
