@@ -1,13 +1,16 @@
 /* eslint-disable prettier/prettier */
 import {
+  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+
 @Entity('sites')
-export class Site {
+export class Site extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()

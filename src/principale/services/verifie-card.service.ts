@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { VerifieCard } from 'src/entities/verifie-card.entity';
+import { VerifieCard } from 'src/principale/entities/verifie-card.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 import { BaseEntity } from 'typeorm';

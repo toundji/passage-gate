@@ -1,21 +1,22 @@
 /* eslint-disable prettier/prettier */
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, forwardRef, HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Abonner } from 'src/entities/abonner.entity';
+import { Abonner } from 'src/principale/entities/abonner.entity';
 import { Repository } from 'typeorm';
-import { VerifieCard } from './../entities/verifie-card.entity';
 import { VerifieCardService } from './verifie-card.service';
-import { AbonnerResponseDto } from './../dto/abonner-response.dto';
-import { PassageDto } from './../dto/passage.dto';
-import { Site } from 'src/entities/site.entity';
+import { Site } from 'src/principale/entities/site.entity';
 import { SitesService } from './sites.service';
-import { AbonnerDto } from './../dto/abonner.dto';
+import { AbonnerResponseDto } from 'src/principale/dto/abonner-response.dto';
+import { PassageDto } from 'src/principale/dto/passage.dto';
+import { AbonnerDto } from 'src/principale/dto/abonner.dto';
 
 @Injectable()
 export class AbonnersService {
   constructor(
     @InjectRepository(Abonner) private abonnerRepository: Repository<Abonner>,
+    @Inject(forwardRef(() => VerifieCardService))
     private verifieCardService: VerifieCardService,
+    @Inject(forwardRef(() => SitesService))
     private siteService: SitesService,
 
   ){}
@@ -78,6 +79,7 @@ export class AbonnersService {
 
 
   async abonnerPasse(passage: PassageDto): Promise<1 | 2 | 0 > {
+     console.log("abonner Passing ....");
     const abonner: Abonner = await this.abonnerRepository.findOneOrFail({where:{idBadge: passage.idBadge}}).catch(async (error)=>{
       console.log(error);
 
@@ -90,7 +92,7 @@ export class AbonnersService {
 
     const site:Site = new Site();
     const solde: number = abonner.solde;
-    
+
     if(solde<passage.montant){
       return 2;
     }
@@ -99,7 +101,7 @@ export class AbonnersService {
       site[key] = passage[key];
     });
     site.abonner_id= abonner.id;
-    
+
     site.solde_initial = solde;
     abonner.solde = solde - passage.montant;
     site.montant = passage.montant;
@@ -107,7 +109,10 @@ export class AbonnersService {
 
     await this.abonnerRepository.save(abonner);
 
+    console.log("site saving ...");
+
    const site_s= await this.siteService.create(site);
+   console.log("site saved");
 
     return 1;
   }

@@ -9,9 +9,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AbonnerDto } from 'src/dto/abonner.dto';
-import { AbonnersService } from 'src/services/abonners.service';
-import { Abonner } from './../entities/abonner.entity';
+import { AbonnerDto } from 'src/principale/dto/abonner.dto';
+import { AbonnersService } from 'src/principale/services/abonners.service';
+import { Abonner } from '../entities/abonner.entity';
 
 @Controller('abonners')
 @ApiTags("Abonners")

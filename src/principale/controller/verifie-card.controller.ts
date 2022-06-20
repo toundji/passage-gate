@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { VerifieCardService } from './../services/verifie-card.service';
-import { CheckAbonnerDto } from './../dto/check-abonne.dto';
+import { VerifieCardService } from '../services/verifie-card.service';
+import { CheckAbonnerDto } from '../dto/check-abonne.dto';
 
 @ApiTags("verifieCards")
 

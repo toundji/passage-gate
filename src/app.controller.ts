@@ -1,12 +1,9 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { AbonnerResponseDto } from './dto/abonner-response.dto';
-import { CheckAbonnerDto } from './dto/check-abonne.dto';
-import { Abonner } from './entities/abonner.entity';
-import { AbonnersService } from './services/abonners.service';
-import { PassageDto } from './dto/passage.dto';
-import { SitesService } from 'src/services/sites.service';
-import { Site } from './entities/site.entity';
+import { AbonnerResponseDto } from './principale/dto/abonner-response.dto';
+import { CheckAbonnerDto } from './principale/dto/check-abonne.dto';
+import { PassageDto } from './principale/dto/passage.dto';
+import { AbonnersService } from './principale/services/abonners.service';
 
 @Controller()
 export class AppController {

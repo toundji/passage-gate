@@ -21,13 +21,13 @@ export class Abonner {
   prenom: string;
 
   @Column()
-  tel: number;
+  tel: string;
 
   @Column()
-  adresse: number;
+  adresse: string;
 
   @Column()
-  nip: number;
+  nip: string;
 
   @Column()
   iduhf: string;

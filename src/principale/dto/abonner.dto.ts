@@ -13,13 +13,13 @@ export class AbonnerDto {
   prenom: string;
 
   @ApiProperty({ required: true })
-  tel: number;
+  tel: string;
 
   @ApiProperty({ required: true })
-  adresse: number;
+  adresse: string;
 
   @ApiProperty({ required: true })
-  nip: number;
+  nip: string;
 
   @ApiProperty({ required: true })
   iduhf: string;

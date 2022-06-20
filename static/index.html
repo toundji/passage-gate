@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passage Gate</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="http://192.168.1.133:3000/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="v-app">
+        <div>Bonjour la famille. Le web marche bien</div>
+        <br>
+        <form>
+            <input type="text" v-model="stand"><br><br>
+            <input type="text" v-model="text"><br><br>
+            <button type="submit" @click.prevent="sendMessage()" >Submit</button>
+        </form>
+        <br><br>
+
+        <div>Bilan des passage</div>
+
+        <ul>
+            <li v-for="(site, index) in sites" :key="index">
+                <ul>
+                    <li><small>site</small>: <i>{{site['site']}}</i></li>
+                    <li><small>Somme</small>: <i>{{site['sum']}}</i></li>
+                    <li><small>Voies</small>: <i>{{site['nbre']}}</i></li>
+                    <li v-for="(msg, index) in site.voies" :key="index">
+                        <ul>
+                            <li><small>site</small>: <i>{{msg['voie']}}</i></li>
+                            <li><small>Somme</small>: <i>{{msg['sum']}}</i></li>
+                        </ul>
+                        <br>
+                    </li>
+                </ul>
+                <br><br>
+             </li>
+        </ul>
+    </div>
+   
+    <script>
+        var app = new Vue({
+            el: '#v-app',
+            data: {
+                title: "websocket tester",
+                text: "",
+                stand: "",
+                messages: ["marche"],
+                sites:  ["marche"],
+                socket: { passages: null, alerts: null },
+            },
+            methods:{
+                sendMessage(){
+                    this.socket.passages.emit("create",
+                        {
+                            site: "AHOZON",
+                            voie: this.stand,
+                            montant: 300,
+                            idBadge: this.text,
+                            percepteur: "Toundji",
+                        })
+                    this.text = "";
+                    this.stand = "";
+
+                },
+                receiverMessage(msg){
+                    for (const key in this.sites) {
+                        if (Object.prototype.hasOwnProperty.call(this.sites, key)) {
+                         const element = this.sites[key];
+                          if(element.site == msg.site){
+                            element.sum = +element.sum + (+msg.montant) + 0;
+                              for (const cle in element.voies) {
+                                  console.log(element.voies);
+                                if (Object.prototype.hasOwnProperty.call(element.voies, cle)){
+                                    if(element.voies[cle].voie == msg.voie){
+                                        element.voies[cle].sum = +element.voies[cle].sum + (+msg.montant);
+
+                                    }
+                                }
+                              } 
+                          }
+                        }
+                      }
+                },
+                receiveSite(msg){
+                    this.sites = msg;
+                    console.log("sites", this.sites);
+                }
+            },
+            created(){
+                this.socket.passages = io("http://192.168.1.133:3000/passages");
+              
+               
+                this.socket.passages.emit("findAll", {}, (msg)=>{
+                    this.receiveSite(msg);
+                    msg.forEach((site) => {
+                        if(site.voies)
+                       { 
+                          site.voies.forEach((voie) => {
+                            this.socket.passages.on(`passage-de-${site.site}-voie-${voie.voie}`, (data)=>{
+                                console.log("receive" , data);
+                                this.receiverMessage(data);
+                            });
+                        });
+                    }else{
+
+                            console.log("les voies sont null. donc les ecoute ne sont sont pas créer");
+                        }
+                    });
+                });
+                console.log(this.socket);
+            }
+        });
+    </script>
+</body>
+</html>
