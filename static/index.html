@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passage Gate</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <script src="http://192.168.1.133:3000/socket.io/socket.io.js"></script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
 </head>
 <body>
     <div id="v-app">
@@ -90,7 +90,7 @@
                 }
             },
             created(){
-                this.socket.passages = io("http://192.168.1.133:3000/passages");
+                this.socket.passages = io("http://localhost:3000/passages");
               
                
                 this.socket.passages.emit("findAll", {}, (msg)=>{
