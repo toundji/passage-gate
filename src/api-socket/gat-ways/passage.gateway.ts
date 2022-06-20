@@ -21,9 +21,11 @@ export class PassageGateway {
   @WebSocketServer()
   server: Server;
 
-  constructor( private readonly siteService: SitesService,
-    private readonly abonnerService: AbonnersService ) {}
-  
+  constructor(
+    private readonly siteService: SitesService,
+    private readonly abonnerService: AbonnersService,
+  ) {}
+
   @SubscribeMessage('create')
   async create(@MessageBody() body: PassageDto) {
     console.log(body);
