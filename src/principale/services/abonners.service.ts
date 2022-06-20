@@ -52,14 +52,14 @@ export class AbonnersService {
     const abonner: Abonner = await this.abonnerRepository.findOneOrFail({where:{idBadge: idBadge}}).catch(async (error)=>{
       console.log(error);
 
-      await this.verifieCardService.create({idBadge: idBadge});
+      await this.verifieCardService.create({idBadge: idBadge,type_verifier: "INVALID"});
       return null;
     });
     if(!abonner){
       return 0;
     }
 
-    if(!abonner.is_active){
+    if(!abonner.est_active){
       this.verifieCardService.create({idBadge: idBadge, type_verifier: "DESACTIVER"});
       return 3;
     }
@@ -73,7 +73,7 @@ export class AbonnersService {
     response.created_at = date;
     response.updated_at = `${abonner.updated_at.getDay()}/${abonner.updated_at.getMonth()}/${abonner.updated_at.getFullYear()}`;
 
-    response.statut= abonner.statut ? 1 : 0;
+    response.est_active = abonner.est_active ? 1 : 0;
     return response;
   }
 
@@ -81,9 +81,8 @@ export class AbonnersService {
   async abonnerPasse(passage: PassageDto): Promise<1 | 2 | 0 > {
      console.log("abonner Passing ....");
     const abonner: Abonner = await this.abonnerRepository.findOneOrFail({where:{idBadge: passage.idBadge}}).catch(async (error)=>{
-      console.log(error);
-
-      await this.verifieCardService.create({idBadge: passage.idBadge});
+      console.log('ook'+error);
+      await this.verifieCardService.create({idBadge:  passage.idBadge,type_verifier: "INVALID"});
       return null;
     });
     if(!abonner){

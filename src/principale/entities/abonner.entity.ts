@@ -48,7 +48,7 @@ export class Abonner {
   type: string;
 
   @Column({ default: true, nullable:false})
-  is_active: boolean;
+  est_active: boolean;
 
   @Column()
   is_sentE: boolean;
@@ -58,9 +58,6 @@ export class Abonner {
 
   @Column()
   is_sentG: boolean;
-
-  @Column()
-  statut: boolean;
 
   @CreateDateColumn()
   created_at: Date;

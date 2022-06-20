@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
   } from 'typeorm';
-  @Entity('verifie-cards')
+  @Entity('verifie_cards')
   export class VerifieCard extends BaseEntity{
 
     @PrimaryGeneratedColumn()

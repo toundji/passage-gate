@@ -9,7 +9,7 @@ export class AbonnerResponseDto {
   solde: string;
   nip: string;
   type: string;
-  statut: 0 | 1;
+  est_active: 0 | 1;
   iduhf: string;
   codeuhf: string;
   plaque: string;
